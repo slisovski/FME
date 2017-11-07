@@ -84,7 +84,7 @@ modMCMC <- function (f, p, ..., jump = NULL, lower = -Inf, upper = +Inf,
                      prior = NULL, var0 = NULL, wvar0 = NULL, n0 = NULL,
                      niter = 1000, outputlength = niter, burninlength = 0,
                      updatecov = niter, covscale = 2.4^2/length(p),
-                     ntrydr = 1, drscale  = NULL, verbose = TRUE) {
+                     ntrydr = 1, drscale  = NULL, verbose = TRUE, nobs) {
   
   ##----------------------------------------------------------------------------
   ## 1. check input
@@ -336,7 +336,7 @@ modMCMC <- function (f, p, ..., jump = NULL, lower = -Inf, upper = +Inf,
   pars      <- matrix(nrow = npar, ncol = outputlength)    # parameter values
   SSpars    <- vector(length = outputlength)               # SS value
   priorpars <- vector(length = outputlength)               # parameter priors
-  obsLoglik <- matrix(nrow = floor(niter/100), ncol=length(mday))  #!!!# 
+  obsLoglik <- matrix(nrow = niter, ncol=12)               #!!!# 
   # obsLoglik is a matrix for holding observation-level log-likelihoods  #!!!#
   # to avoid using too much RAM when the dataset (here called Cell.Data) is large and MCMC chain is long/heavily autocorrelated #!!!#
   # I only recorded the observation level logL values every 100 iterations #!!!#
@@ -521,7 +521,7 @@ modMCMC <- function (f, p, ..., jump = NULL, lower = -Inf, upper = +Inf,
       pars[,ii]     <- parold
       SSpars[ii]    <- sum(SSold)
       priorpars[ii] <- PPold
-      if((ii)%%100==0){obsLoglik[ceiling(ii/100),] <- obsLLold}  #!!!#
+      obsLoglik[ii,] <- obsLLold  #!!!#
       if (accept)
         naccsave <- naccsave + 1
       ou1 <- i + ou
