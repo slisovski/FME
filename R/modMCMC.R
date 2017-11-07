@@ -336,7 +336,7 @@ modMCMC <- function (f, p, ..., jump = NULL, lower = -Inf, upper = +Inf,
   pars      <- matrix(nrow = npar, ncol = outputlength)    # parameter values
   SSpars    <- vector(length = outputlength)               # SS value
   priorpars <- vector(length = outputlength)               # parameter priors
-  obsLoglik<-matrix(nrow = floor(niter/100), ncol=length(which(Cell.Data$Time!=0)))  #!!!# 
+  obsLoglik <- matrix(nrow = floor(niter/100), ncol=length(mday))  #!!!# 
   # obsLoglik is a matrix for holding observation-level log-likelihoods  #!!!#
   # to avoid using too much RAM when the dataset (here called Cell.Data) is large and MCMC chain is long/heavily autocorrelated #!!!#
   # I only recorded the observation level logL values every 100 iterations #!!!#
